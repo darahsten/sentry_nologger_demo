@@ -1,0 +1,5 @@
+[run]
+include = logger_exception_failure/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
