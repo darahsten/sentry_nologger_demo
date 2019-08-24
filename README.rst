@@ -11,15 +11,14 @@ A project to demo failure of logger.exception to sent to sentry in new sentry sd
      :alt: Black code style
 
 
-:License: MIT
 
 Introduction
 ------------
-The new sentry sdk (DSN) introduces some incompatibilities with raven and hence required.
-Documentation on how to upgrade to the new sentry sdk is lacking for django projects.
+The new sentry sdk (DSN) introduces some incompatibilities with raven.
+Documentation on how to upgrade to the new sentry sdk from using the old raven client is lacking for django projects.
 
-I wanted to upgrade and discovered along the way that logger.exception(repr(e)) no longer
-sends any errors to sentry when using the new dsn.
+I wanted to upgrade and discovered along the way that `logger.exception(repr(e))` no longer
+sends any errors to sentry when using the new dsn and default configuration for django
 
 See more here https://stackoverflow.com/questions/57274935/configuring-sentry-handler-for-django-with-new-sentry-sdk-without-raven/57294650#57294650
 
