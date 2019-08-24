@@ -13,78 +13,39 @@ A project to demo failure of logger.exception to sent to sentry in new sentry sd
 
 :License: MIT
 
+Introduction
+------------
+The new sentry sdk (DSN) introduces some incompatibilities with raven and hence required.
+Documentation on how to upgrade to the new sentry sdk is lacking for django projects.
 
-Settings
---------
+I wanted to upgrade and discovered along the way that logger.exception(repr(e)) no longer
+sends any errors to sentry when using the new dsn.
 
-Moved to settings_.
+See more here https://stackoverflow.com/questions/57274935/configuring-sentry-handler-for-django-with-new-sentry-sdk-without-raven/57294650#57294650
 
-.. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
-
-Basic Commands
---------------
-
-Setting Up Your Users
-^^^^^^^^^^^^^^^^^^^^^
-
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
-
-* To create an **superuser account**, use this command::
-
-    $ python manage.py createsuperuser
-
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
-
-Type checks
-^^^^^^^^^^^
-
-Running type checks with mypy:
-
-::
-
-  $ mypy logger_exception_failure
-
-Test coverage
-^^^^^^^^^^^^^
-
-To run the tests, check your test coverage, and generate an HTML coverage report::
-
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
-
-Running tests with py.test
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  $ pytest
-
-Live reloading and Sass CSS compilation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Moved to `Live reloading and SASS compilation`_.
-
-.. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
+This is a simple project to demo that behavior in response to the comments.
 
 
+SETUP
+-----
 
+Configured using sqlite (no need for postgres).
 
+setup a virtualenv mkvirtualenv sentry_nologger_demo
+workon on sentry_nologger_demo
 
-Sentry
-^^^^^^
+pip install -r requirements.txt
 
-Sentry is an error logging aggregator service. You can sign up for a free account at  https://sentry.io/signup/?code=cookiecutter  or download and host it yourself.
-The system is setup with reasonable defaults, including 404 logging and integration with the WSGI application.
+python manage.py runserver --settings=config.settings
 
-You must set the DSN url in production.
+Ensure that you have a .env file with environment variable DJANGO_SENTRY_DSN=project_sentry_dsn in
+the new format i.e. without the secret key
 
+To test navigate to localhost:8000/sentry-debug/  >>>> Tells you, you are logging to sentry correctly. Will throwup an exception in template
+Navigate to localhost:8000/sentry-logs-error/ >>>> using capture exception to log the error, You should see this in sentry
+Navigate to localhost:8000/sentry-nologs-error/ >>>>>> trying logger.exception, never logs anything to sentry. This will only appear in console
 
-Deployment
-----------
-
-The following details how to deploy this application.
-
-
+All the demo pages are in config.urls FYI.
+If I made a mistake in the setup please let me know.
 
 
